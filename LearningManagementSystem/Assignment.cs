@@ -10,19 +10,18 @@ namespace LearningManagementSystem
     {
         private string _name;
         private string _description;
-        private string _total_available_points;
-        private string _due_date;
+        private string _totalAvailablePoints;
+        private string _dueDate;
+
+        public Assignment()
+        {
+
+        }
 
         public string Name
         {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
+            get { return _name;  }
+            set { _name = value; }
         }
 
         public string Description
@@ -41,12 +40,12 @@ namespace LearningManagementSystem
         {
             get
             {
-                return _total_available_points;
+                return _totalAvailablePoints;
             }
 
             set
             {
-                _total_available_points = value;
+                _totalAvailablePoints = value;
             }   
         }
 
@@ -54,13 +53,18 @@ namespace LearningManagementSystem
         {
             get
             {
-                return _due_date;
+                return _dueDate;
             }
 
             set
             {
-                _due_date = value;
+                _dueDate = value;
             }
         }
+
+        
+
+
+
     }
 }

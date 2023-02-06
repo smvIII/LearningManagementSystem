@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,13 @@ namespace LearningManagementSystem
         private List<Person> _roster;
         private List<Assignment> _assignments;
         private List<Module> _modules;
+
+        public Course()
+        {
+            _roster = new List<Person>();
+            _assignments = new List<Assignment>();
+            _modules = new List<Module>();
+        }
         public string Code // property that exposes _code field.
         {
             get
@@ -57,10 +65,16 @@ namespace LearningManagementSystem
             {
                 return _roster;
             }
+            set { _roster = value; }
         }
-        public Course()
-        {
 
+        public List<Assignment> Assignments
+        {
+            get
+            {
+                return _assignments;
+            }
+            set { _assignments = value; }
         }
 
         static public Course AddCourse()
@@ -79,9 +93,41 @@ namespace LearningManagementSystem
             Console.Clear();
             return newCourse;
         }
-       static public Course UpdateInfo(List<Course> courses)
+
+        static public Assignment CreateAssignment()
         {
-            
+            Assignment newAssignment = new Assignment();
+
+            Console.WriteLine("Please enter name for the assignment");
+            string newAssignmentName = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("Please enter description for the assignment");
+            string newDescriptName = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("Please enter the total available points for the assignment");
+            string newTotalAvailPoints = Console.ReadLine() ?? string.Empty;
+            newAssignment.Name = newAssignmentName;
+            newAssignment.Description = newDescriptName;
+            newAssignment.TotalAvailablePoints = newTotalAvailPoints;
+            Console.Clear();
+            return newAssignment;
+            //Course._assignments.Add(newAssignment);
+            //return newAssignment;
+        }
+
+        static public void AddAssignment(Assignment newAssignment, List<Course> courses, int courseIndex)
+        {
+            courses[courseIndex].Assignments.Add(newAssignment);
+        }
+
+        public void printAssignments()
+        {
+            for (int i = 0; i < this.Assignments.Count; i++)
+            {
+                Console.WriteLine("Assignment " + i + ": " + this.Assignments[i].Name);
+            }
+        }
+        static public Course UpdateCourse(List<Course> courses)
+        {
+
             int courseIndex = ListSelect(courses, 1);
             //Console.WriteLine(courses[courseIndex].Code);
             Console.WriteLine("What would you like to update about the course?");
@@ -90,7 +136,7 @@ namespace LearningManagementSystem
             Console.WriteLine("3. Course Description");
 
             string choice = Console.ReadLine() ?? string.Empty;
-            
+
             if (int.TryParse(choice, out int choiceInt))
             {
                 if (choiceInt == 1)
@@ -100,7 +146,7 @@ namespace LearningManagementSystem
                     courses[courseIndex].Code = updatedCourseCode;
                 }
                 else if (choiceInt == 2)
-                { 
+                {
                     Console.Write("please enter the updated course name: ");
                     string updatedCourseName = Console.ReadLine() ?? string.Empty;
                     courses[courseIndex].Name = updatedCourseName;
@@ -118,28 +164,87 @@ namespace LearningManagementSystem
         {
             if (option == 0)
             { Console.WriteLine("Select a course to look at."); }
-            else
-            { Console.WriteLine("Select a course to change."); }
+            else if (option == 1)
+            { Console.WriteLine("Select a course to update."); }
+            else if (option == 2)
+            {
+                Console.WriteLine("Select a course to add assignment to");
+            }
 
             int i = 1;
             foreach (var course in courses)
             {
-                Console.WriteLine(i + ": " + course.Code);
+                Console.WriteLine(i + ": " + course.Name + " - " + course.Code);
                 i++;
             }
             string choice = Console.ReadLine() ?? string.Empty;
             Console.Clear();
-            if (option == 0 && int.Parse(choice) < i)
-            {   
+            if (option == 0 && int.Parse(choice) < i) // just look at course
+            {
                 Console.WriteLine(courses[int.Parse(choice) - 1]);
             }
             else
             {
-                return int.Parse(choice)-1;
+                return int.Parse(choice) - 1; // return choice to update
             }
             return 0;
         }
 
+        public static void AddStudentToCourse(List<Person> students, List<Course> courses)
+        {
+            Console.WriteLine("Please select a course to add a student to.");
+            int courseIndex = Course.ListSelect(courses, -1);
+            Console.WriteLine("Please select a student to add to that course.");
+            int studentIndex = Person.ListSelect(students, 1);
+            courses[courseIndex].Roster.Add(students[studentIndex]);
+            courses[courseIndex].PrintCourseStudents();
+            Console.Clear();
+
+        }
+
+        public static void RmStudentFromCourse(List<Person> students, List<Course> courses)
+        {
+            Console.WriteLine("Please select a course to remove a student from.");
+            int courseIndex = Course.ListSelect(courses, -1);
+            Console.WriteLine("Please select a student to remove from course.");
+            int studentIndex = Person.ListSelect(students, 1);
+            courses[courseIndex].Roster.Remove(students[studentIndex]);
+            courses[courseIndex].PrintCourseStudents();
+
+        }
+
+        public void PrintCourseStudents()
+        {
+            Console.WriteLine("Updated "+this.Name+" roster.");
+            for (int i = 0; i < this.Roster.Count; i++)
+            {
+                Console.WriteLine(this.Name + ": " + this.Roster[i].Name);
+            }
+        }
+
+        public static void CourseSearch(List<Course> courses)
+        {
+            Console.WriteLine("Please enter name or description of course to search:");
+            
+            string query = Console.ReadLine() ?? string.Empty;
+            courses.Where(s => s.Name.ToUpper().Contains(query.ToUpper())
+                || s.Description.ToLower().Contains(query.ToLower())).ToList()
+                  .ForEach(Console.WriteLine);
+
+        } // students.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList().ForEach(Console.WriteLine);
+
+        public static void printCourseMenu()
+        {
+            Console.WriteLine("Course Options");
+            Console.WriteLine("1. Create course."); // DONE
+            Console.WriteLine("2. Search for course by name or description."); // DONE
+            Console.WriteLine("3. Update a course's information."); // DONE
+            Console.WriteLine("4. List all courses."); // DONE
+            Console.WriteLine("5. Create assignment for a specific course."); // DONE
+            Console.WriteLine("6. Add student from list to specific course."); // DONE
+            Console.WriteLine("7. Remove student form list to specific course."); // DONE
+            Console.WriteLine("8. Go back to main menu"); // DONE
+        }
         public override string ToString()
         {
             return "Course Code : " + _code + " | Course Name: " + _name + " | Course Description: " + _description;

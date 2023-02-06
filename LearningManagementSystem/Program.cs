@@ -33,12 +33,12 @@ namespace cop4870
                 {
 
                     Console.Clear();
-                    courseMenu(courses);
+                    courseMenu(courses, students);
                 }
                 if (choiceInt == 2)
                 {
                     Console.Clear();
-                    studentMenu(students);
+                    studentMenu(students, courses);
                 }
                 if (choiceInt == 3)
                 {
@@ -47,20 +47,14 @@ namespace cop4870
             }
             return true;
         }
-        static void courseMenu(List<Course> courses)
+        static void courseMenu(List<Course> courses, List<Person> students)
         {
             bool navCourseMenu = true;
 
             while (navCourseMenu)
             {
-                Console.WriteLine("Course Options");
-                Console.WriteLine("1. Create course."); // DONE
-                Console.WriteLine("2. Search for course by name or description"); // 
-                Console.WriteLine("3. Update a course's information."); // DONE
-                Console.WriteLine("4. List all courses"); // DONE
-                Console.WriteLine("5. Create assignment for a specific course."); //
-                Console.WriteLine("6. Go back to main menu");
 
+                Course.printCourseMenu();
                 string choice = Console.ReadLine() ?? string.Empty;
                 Console.Clear();
 
@@ -72,24 +66,37 @@ namespace cop4870
                     }
                     else if (choiceInt == 2) // queries or something
                     {
-                        
+                        Course.CourseSearch(courses);
                     }
                     else if (choiceInt == 3) // update a course's information
                     {
-                        Course.UpdateInfo(courses);   
+                        Course.UpdateCourse(courses);   
                     }
                     else if (choiceInt == 4) // List
                     {
-                        //Console.Clear();
+                       
                         Course.ListSelect(courses, 0);
                     }
 
                     else if (choiceInt == 5) // create assignment
                     {
-
+                        Assignment newAssignment = Course.CreateAssignment();
+                        int courseIndex = Course.ListSelect(courses, 2);
+                        Course.AddAssignment(newAssignment, courses, courseIndex);
+                        courses[courseIndex].printAssignments();
                     }
 
-                    if (choiceInt == 6)
+                    else if (choiceInt == 6) //add student from list of students and add to course
+                    {
+                        Course.AddStudentToCourse(students, courses);
+                    }
+
+                    else if (choiceInt == 7) // remove a student from a course's roster
+                    {
+                        Course.RmStudentFromCourse(students, courses);
+                    }
+
+                    else if (choiceInt == 8) // exit from course menu
                     {
                         navCourseMenu = false;
                     }
@@ -97,9 +104,46 @@ namespace cop4870
             }
         }
 
-        static void studentMenu(List<Person> students)
+        static void studentMenu(List<Person> students, List<Course> courses)
         {
+            bool navStudentMenu = true;
 
+            while (navStudentMenu)
+            {
+                Person.printStudentMenu();
+                string choice = Console.ReadLine() ?? string.Empty;
+                Console.Clear();
+
+                if (int.TryParse(choice, out int choiceInt))
+                {
+                    if (choiceInt == 1) // Create a student
+                    {
+                        students.Add(Person.AddStudent());
+                    }
+                    else if (choiceInt == 2) //search for a student
+                    {
+                        Person.StudentSearch(students);
+                    }
+                    else if (choiceInt == 3) // update a students info
+                    {
+                        Person.UpdateStudent(students);
+                    }
+                    else if (choiceInt == 4) // list all students
+                    {
+                        Console.WriteLine("Here is a list of all enrolled students");
+                        Person.ListSelect(students, 0);
+                    }   
+                    else if (choiceInt == 5) // list all courses a student is taking
+                    {
+                        Person.ListStudentCourses(students, courses);
+                    }
+                    else if (choiceInt == 6) // exit student menu
+                    {
+                        navStudentMenu = false;
+                    }
+                }
+
+            }
         }
 
 
