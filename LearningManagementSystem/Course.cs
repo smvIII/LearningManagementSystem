@@ -227,11 +227,12 @@ namespace LearningManagementSystem
             Console.WriteLine("Please enter name or description of course to search:");
             
             string query = Console.ReadLine() ?? string.Empty;
+
+            // modeled from youtube video "Ep 11. Adding search functionality for courses" by Chris Mills
             courses.Where(s => s.Name.ToUpper().Contains(query.ToUpper())
                 || s.Description.ToLower().Contains(query.ToLower())).ToList()
-                  .ForEach(Console.WriteLine);
-
-        } // students.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList().ForEach(Console.WriteLine);
+                .ForEach(Console.WriteLine);
+        } 
 
         public static void printCourseMenu()
         {

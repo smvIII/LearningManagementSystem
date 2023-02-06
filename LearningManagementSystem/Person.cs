@@ -122,9 +122,10 @@ namespace LearningManagementSystem
         {
             Console.WriteLine("Please enter a name you would like to search for:");
             string query = Console.ReadLine() ?? string.Empty;
-            // 
-            students.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList().ForEach(Console.WriteLine);
+
             // modeled from youtube video "Ep 6. Adding search functionality for students" by Chris Mills
+            students.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList().ForEach(Console.WriteLine);
+            
 
         }
 
