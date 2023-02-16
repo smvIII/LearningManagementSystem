@@ -4,12 +4,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using LearningManagementSystem.Models.People;
 
-namespace LearningManagementSystem
+namespace LearningManagementSystem.Models
 {
-    internal class Course
+    public class Course
     {
         //fields
+        private int _creditHours;
         private string _code;
         private string _name;
         private string _description;
@@ -120,9 +122,9 @@ namespace LearningManagementSystem
 
         public void printAssignments()
         {
-            for (int i = 0; i < this.Assignments.Count; i++)
+            for (int i = 0; i < Assignments.Count; i++)
             {
-                Console.WriteLine("Assignment " + i + ": " + this.Assignments[i].Name);
+                Console.WriteLine("Assignment " + i + ": " + Assignments[i].Name);
             }
         }
         static public Course UpdateCourse(List<Course> courses)
@@ -193,7 +195,7 @@ namespace LearningManagementSystem
         public static void AddStudentToCourse(List<Person> students, List<Course> courses)
         {
             Console.WriteLine("Please select a course to add a student to.");
-            int courseIndex = Course.ListSelect(courses, -1);
+            int courseIndex = ListSelect(courses, -1);
             Console.WriteLine("Please select a student to add to that course.");
             int studentIndex = Person.ListSelect(students, 1);
             courses[courseIndex].Roster.Add(students[studentIndex]);
@@ -205,7 +207,7 @@ namespace LearningManagementSystem
         public static void RmStudentFromCourse(List<Person> students, List<Course> courses)
         {
             Console.WriteLine("Please select a course to remove a student from.");
-            int courseIndex = Course.ListSelect(courses, -1);
+            int courseIndex = ListSelect(courses, -1);
             Console.WriteLine("Please select a student to remove from course.");
             int studentIndex = Person.ListSelect(students, 1);
             courses[courseIndex].Roster.Remove(students[studentIndex]);
@@ -215,24 +217,24 @@ namespace LearningManagementSystem
 
         public void PrintCourseStudents()
         {
-            Console.WriteLine("Updated "+this.Name+" roster.");
-            for (int i = 0; i < this.Roster.Count; i++)
+            Console.WriteLine("Updated " + Name + " roster.");
+            for (int i = 0; i < Roster.Count; i++)
             {
-                Console.WriteLine(this.Name + ": " + this.Roster[i].Name);
+                Console.WriteLine(Name + ": " + Roster[i].Name);
             }
         }
 
         public static void CourseSearch(List<Course> courses)
         {
             Console.WriteLine("Please enter name or description of course to search:");
-            
+
             string query = Console.ReadLine() ?? string.Empty;
 
             // modeled from youtube video "Ep 11. Adding search functionality for courses" by Chris Mills
             courses.Where(s => s.Name.ToUpper().Contains(query.ToUpper())
                 || s.Description.ToLower().Contains(query.ToLower())).ToList()
                 .ForEach(Console.WriteLine);
-        } 
+        }
 
         public static void printCourseMenu()
         {
@@ -243,8 +245,9 @@ namespace LearningManagementSystem
             Console.WriteLine("4. List all courses."); // DONE
             Console.WriteLine("5. Create assignment for a specific course."); // DONE
             Console.WriteLine("6. Add student from list to specific course."); // DONE
-            Console.WriteLine("7. Remove student form list to specific course."); // DONE
+            Console.WriteLine("7. Remove student from list to specific course."); // DONE
             Console.WriteLine("8. Go back to main menu"); // DONE
+
         }
         public override string ToString()
         {

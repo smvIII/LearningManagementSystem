@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LearningManagementSystem
+namespace LearningManagementSystem.Models
 {
-    internal class Assignment
+    public class Assignment
     {
         private string _name;
         private string _description;
@@ -20,7 +20,7 @@ namespace LearningManagementSystem
 
         public string Name
         {
-            get { return _name;  }
+            get { return _name; }
             set { _name = value; }
         }
 
@@ -46,7 +46,7 @@ namespace LearningManagementSystem
             set
             {
                 _totalAvailablePoints = value;
-            }   
+            }
         }
 
         public string DueDate
@@ -62,7 +62,7 @@ namespace LearningManagementSystem
             }
         }
 
-        
+
 
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
-using LearningManagementSystem;
 using System.Reflection.PortableExecutable;
+using LearningManagementSystem.Models.People;
+using LearningManagementSystem.Models;
 
 namespace cop4870
 {
@@ -8,6 +9,7 @@ namespace cop4870
     {
         static void Main(string[] args)
         {
+
             bool navMainMenu = true;
             var courses = new List<Course>();
             var students = new List<Person>();
@@ -23,7 +25,8 @@ namespace cop4870
             Console.WriteLine("Please select which menu you would like to navigate.");
             Console.WriteLine("1. Course Options");
             Console.WriteLine("2. Student Options");
-            Console.WriteLine("3. Exit");
+            Console.WriteLine("3. Module Options");
+            Console.WriteLine("4. Exit");
 
             string choice = Console.ReadLine() ?? string.Empty;
 
@@ -35,12 +38,18 @@ namespace cop4870
                     Console.Clear();
                     courseMenu(courses, students);
                 }
-                if (choiceInt == 2)
+                else if (choiceInt == 2)
                 {
                     Console.Clear();
                     studentMenu(students, courses);
                 }
-                if (choiceInt == 3)
+                else if (choiceInt == 3)
+                {
+                    Console.Clear();
+                    moduleMenu(courses);
+                }
+
+                if (choiceInt == 4)
                 {
                     return false;
                 }
@@ -146,6 +155,24 @@ namespace cop4870
             }
         }
 
+        static void moduleMenu(List<Course> courses)
+        {
+            bool navModuleMenu = true;
 
+            while (navModuleMenu)
+            {
+                Module.printModuleMenu();
+                string choice = Console.ReadLine() ?? string.Empty;
+                Console.Clear();
+                if (int.TryParse(choice, out int choiceInt))
+                {
+                    if (choiceInt == 6) // Create a student
+                    {
+                        navModuleMenu = false;
+                    }
+                }
+            }
+
+        }
     }
 }

@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LearningManagementSystem
+namespace LearningManagementSystem.Models.People
 {
-    internal class Person
+    public class Person
     {
         private string _name;
         private string _classification;
@@ -19,8 +19,8 @@ namespace LearningManagementSystem
             set { _name = value; }
         }
         public string Classification
-        { 
-            get { return _classification; } 
+        {
+            get { return _classification; }
             set { _classification = value; }
         }
 
@@ -29,7 +29,7 @@ namespace LearningManagementSystem
             get { return _grades; }
             set { _grades = value; }
         }
-        
+
         static public Person AddStudent()
         {
             Person newStudent = new Person();
@@ -52,7 +52,7 @@ namespace LearningManagementSystem
         static public void UpdateStudent(List<Person> students)
         {
             Console.WriteLine("Select a student to update");
-            int studentIndex = Person.ListSelect(students, 1);
+            int studentIndex = ListSelect(students, 1);
             Console.WriteLine("What would you like to update about the student?");
             Console.WriteLine("1. Name");
             Console.WriteLine("2. Classification");
@@ -101,8 +101,8 @@ namespace LearningManagementSystem
         public static void ListStudentCourses(List<Person> students, List<Course> courses)
         {
             Console.WriteLine("Please select a student to view their courses.");
-            int studentIndex = Person.ListSelect(students, 1);
-           // Console.WriteLine("Course count is " + courses.Count);
+            int studentIndex = ListSelect(students, 1);
+            // Console.WriteLine("Course count is " + courses.Count);
             int courseCounter = 1;
             for (int i = 0; i < courses.Count; i++)
             {
@@ -110,7 +110,7 @@ namespace LearningManagementSystem
                 {
                     if (students[studentIndex].Name == courses[i].Roster[j].Name)
                     {
-                        Console.WriteLine("Course " + courseCounter + ": "+ courses[i].Name);
+                        Console.WriteLine("Course " + courseCounter + ": " + courses[i].Name);
                         courseCounter++;
                     }
                 }
@@ -118,14 +118,14 @@ namespace LearningManagementSystem
 
         }
 
-        public static void StudentSearch(List<Person> students  )
+        public static void StudentSearch(List<Person> students)
         {
             Console.WriteLine("Please enter a name you would like to search for:");
             string query = Console.ReadLine() ?? string.Empty;
 
             // modeled from youtube video "Ep 6. Adding search functionality for students" by Chris Mills
             students.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList().ForEach(Console.WriteLine);
-            
+
 
         }
 
