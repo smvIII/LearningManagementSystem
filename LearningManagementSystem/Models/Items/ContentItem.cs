@@ -28,5 +28,6 @@ namespace LearningManagementSystem.Models.Items
             get { return _path; }
             set { _path = value; }
         }
+        
     }
 }

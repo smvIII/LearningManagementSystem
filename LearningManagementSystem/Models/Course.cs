@@ -78,6 +78,11 @@ namespace LearningManagementSystem.Models
             }
             set { _assignments = value; }
         }
+        public List<Module> Modules
+        {
+            get { return _modules; }
+            set { _modules = value; }
+        }
 
         static public Course AddCourse()
         {
@@ -113,6 +118,19 @@ namespace LearningManagementSystem.Models
             return newAssignment;
             //Course._assignments.Add(newAssignment);
             //return newAssignment;
+        }
+
+        static public Module CreateModule()
+        {
+            Module newModule = new Module();
+            Console.WriteLine("Please enter name for the module");
+            string newModuleName = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("Please enter description for module");
+            string newModuleDesc = Console.ReadLine() ?? string.Empty;
+            newModule.Name = newModuleName;
+            newModule.Description = newModuleDesc;
+            Console.Clear();
+            return newModule;
         }
 
         static public void AddAssignment(Assignment newAssignment, List<Course> courses, int courseIndex)
@@ -171,6 +189,10 @@ namespace LearningManagementSystem.Models
             else if (option == 2)
             {
                 Console.WriteLine("Select a course to add assignment to");
+            }
+            else if (option == 3)
+            {
+                Console.WriteLine("Select a course to add a module to");
             }
 
             int i = 1;

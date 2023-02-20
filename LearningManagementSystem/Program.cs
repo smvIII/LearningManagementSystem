@@ -2,6 +2,7 @@
 using System.Reflection.PortableExecutable;
 using LearningManagementSystem.Models.People;
 using LearningManagementSystem.Models;
+using System.Runtime.Serialization;
 
 namespace cop4870
 {
@@ -166,7 +167,40 @@ namespace cop4870
                 Console.Clear();
                 if (int.TryParse(choice, out int choiceInt))
                 {
-                    if (choiceInt == 6) // Create a student
+                    if (choiceInt == 1) // CREATE MODULE
+                    {
+                        //Console.WriteLine("Please select a course to add a module to.");
+                        int courseIndex = Course.ListSelect(courses, 3);
+                        Module newModule = Course.CreateModule();
+                        courses[courseIndex].Modules.Add(newModule);    
+                    }
+                    else if (choiceInt == 2) //CREATE ITEM FOR MODULE
+                    {
+                        Console.WriteLine("Please select a course to add item to a module.");
+                        int courseIndex = Course.ListSelect(courses, 9);
+                        Console.WriteLine("Please select a module to add an item to.");
+                        int moduleIndex = Module.ListSelect(courses[courseIndex].Modules, 1);
+                        Module.CreateItem(courses[courseIndex].Modules, moduleIndex);
+                    }
+                    else if (choiceInt == 3) // UPDATE ITEM
+                    {
+
+                    }
+                    else if (choiceInt == 4) // List all modules
+                    {
+                        Console.WriteLine("Please select the course to list its modules");
+                        int courseIndex = Course.ListSelect(courses, 9);
+                        int moduleIndex = Module.ListSelect(courses[courseIndex].Modules, 0);
+                    }
+                    else if (choiceInt == 5) // Read an item
+                    {
+
+                    }
+                    else if (choiceInt == 6) // remove an item
+                    {
+
+                    }
+                    else
                     {
                         navModuleMenu = false;
                     }
