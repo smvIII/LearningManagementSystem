@@ -3,6 +3,8 @@ using System.Reflection.PortableExecutable;
 using LearningManagementSystem.Models.People;
 using LearningManagementSystem.Models;
 using System.Runtime.Serialization;
+using LearningManagementSystem;
+using LearningManagementSystem.Models.Items;
 
 namespace cop4870
 {
@@ -141,7 +143,7 @@ namespace cop4870
                     else if (choiceInt == 4) // list all students
                     {
                         Console.WriteLine("Here is a list of all enrolled students");
-                        Person.ListSelect(students, 0);
+                        Services.ListSelect(students, 0);
                     }   
                     else if (choiceInt == 5) // list all courses a student is taking
                     {
@@ -169,36 +171,47 @@ namespace cop4870
                 {
                     if (choiceInt == 1) // CREATE MODULE
                     {
-                        //Console.WriteLine("Please select a course to add a module to.");
-                        int courseIndex = Course.ListSelect(courses, 3);
+                        Console.WriteLine("Please select a course to add a module to.");
+                        int courseIndex = Services.ListSelect(courses, 1);
                         Module newModule = Course.CreateModule();
                         courses[courseIndex].Modules.Add(newModule);    
                     }
                     else if (choiceInt == 2) //CREATE ITEM FOR MODULE
                     {
                         Console.WriteLine("Please select a course to add item to a module.");
-                        int courseIndex = Course.ListSelect(courses, 9);
+                        int courseIndex = Services.ListSelect(courses, 1);
+                       // int courseIndex = Course.ListSelect(courses, 9);
                         Console.WriteLine("Please select a module to add an item to.");
-                        int moduleIndex = Module.ListSelect(courses[courseIndex].Modules, 1);
-                        Module.CreateItem(courses[courseIndex].Modules, moduleIndex);
+                        int moduleIndex = Services.ListSelect(courses[courseIndex].Modules, 1);
+                        Module.CreateItemForModule(courses[courseIndex].Modules, courses, moduleIndex, courseIndex);
                     }
                     else if (choiceInt == 3) // UPDATE ITEM
                     {
+
 
                     }
                     else if (choiceInt == 4) // List all modules
                     {
                         Console.WriteLine("Please select the course to list its modules");
-                        int courseIndex = Course.ListSelect(courses, 9);
-                        int moduleIndex = Module.ListSelect(courses[courseIndex].Modules, 0);
+                        int courseIndex = Services.ListSelect(courses, 1);
+                        int moduleIndex = Services.ListSelect(courses[courseIndex].Modules, 0);
                     }
                     else if (choiceInt == 5) // Read an item
                     {
-
+                        Console.WriteLine("Please select the course to read a item from one of its modules.");
+                        int courseIndex = Services.ListSelect(courses, 1);
+                        Console.WriteLine("Please select the module to read one of its items.");
+                        int moduleIndex = Services.ListSelect(courses[courseIndex].Modules, 1);
+                        Console.WriteLine("Please select the item to read.");
+                        int itemIndex = Services.ListSelect(courses[courseIndex].Modules[moduleIndex].Content, 1);
+                        Console.WriteLine("Here is item " + 
+                            courses[courseIndex].Modules[moduleIndex].Content[itemIndex].Name + "'s contents");
+                        ContentItem.ShowContent(courses[courseIndex].Modules[moduleIndex].Content[itemIndex]);
+                        
                     }
                     else if (choiceInt == 6) // remove an item
                     {
-
+                        Module.RmItemFromModule(courses);
                     }
                     else
                     {

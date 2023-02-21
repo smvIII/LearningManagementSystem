@@ -62,7 +62,11 @@ namespace LearningManagementSystem.Models
             }
         }
 
-
+        public override string ToString()
+        {
+            return "Assignment Name : " + _name + " | Assignmnet Description: " + _description + 
+                " | Total Points: " + _totalAvailablePoints;
+        }
 
 
 

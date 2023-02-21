@@ -25,57 +25,40 @@ namespace LearningManagementSystem.Models
             _assignments = new List<Assignment>();
             _modules = new List<Module>();
         }
+
+        //properties
+        public int CreditHours
+        {
+            get { return _creditHours; }
+            set { _creditHours = value; }
+        }
         public string Code // property that exposes _code field.
         {
-            get
-            {
-                return _code;
-            }
-            set
-            {
-                _code = value;
-            }
+            get { return _code; }
+            set { _code = value; }
         }
 
         public string Name // property that exposes _name field.
         {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public string Description // property that exposes _description field.
         {
-            get
-            {
-                return _description;
-            }
-            set
-            {
-                _description = value;
-            }
+            get { return _description; }
+            set { _description = value; }
         }
 
         public List<Person> Roster // property that exposes _roster field.
         {
-            get
-            {
-                return _roster;
-            }
+            get { return _roster; }
             set { _roster = value; }
         }
 
         public List<Assignment> Assignments
         {
-            get
-            {
-                return _assignments;
-            }
+            get { return _assignments; }
             set { _assignments = value; }
         }
         public List<Module> Modules
@@ -167,7 +150,7 @@ namespace LearningManagementSystem.Models
                 }
                 else if (choiceInt == 2)
                 {
-                    Console.Write("please enter the updated course name: ");
+                    Console.Write("Please enter the updated course name: ");
                     string updatedCourseName = Console.ReadLine() ?? string.Empty;
                     courses[courseIndex].Name = updatedCourseName;
                 }

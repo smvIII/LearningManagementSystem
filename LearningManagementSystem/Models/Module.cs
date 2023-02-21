@@ -12,7 +12,12 @@ namespace LearningManagementSystem.Models
     {
         private string ?_name;
         private string ?_description;
-        private List<ContentItem> ?_content;
+        private List<ContentItem> _content;
+
+        public Module()
+        {
+            _content = new List<ContentItem>();
+        }
 
         public string Name
         {
@@ -31,26 +36,8 @@ namespace LearningManagementSystem.Models
             get { return _content; }
             set { _content = value; }
         }
-        public static int ListSelect(List<Module> modules, int option) // 0 = no choice // 1 = choice
-        {
-            //Console.WriteLine("Here is a list of all students");
-            int i = 1;
-            foreach (var module in modules)
-            {
-                Console.Write(i + ": ");
-                Console.WriteLine(module);
-                i++;
-            }
-            if (option == 1)
-            {
-                string choice = Console.ReadLine() ?? string.Empty;
-                return int.Parse(choice) - 1; // return choice
-            }
-            //Console.Clear()
-            return 0;
-        }
 
-        public static void CreateItem(List<Module> modules, int moduleIndex)
+        public static void CreateItemForModule(List<Module> modules, List<Course> courses, int moduleIndex, int courseIndex )
         {
             Console.WriteLine("Please select what kind of item you want to create");
             Console.WriteLine("1. PageItem");
@@ -60,39 +47,53 @@ namespace LearningManagementSystem.Models
             string choice = Console.ReadLine() ?? string.Empty;
             if (int.TryParse(choice, out int choiceInt))
             {
-                if (choiceInt == 1 )
+                if (choiceInt == 1 ) // CREATE pageItem DONE
                 {
                     PageItem newPageItem = new PageItem();
+                    newPageItem = (PageItem)PageItem.CreatePageItem();
                     modules[moduleIndex].Content.Add(newPageItem);
                 }
-                else if (choiceInt == 2 )
+                else if (choiceInt == 2 ) // CREATE assignmentItem
                 {
                     AssignmentItem newAssignmentItem = new AssignmentItem();
+                    newAssignmentItem = (AssignmentItem)AssignmentItem.CreateAssignmentItem(courses, courseIndex);
                     modules[moduleIndex].Content.Add(newAssignmentItem);
                 }
-                else
+                else // CREATE fileItem
                 {
                     FileItem newFileItem = new FileItem();
+                    newFileItem = (FileItem)FileItem.CreateFileItem();
                     modules[moduleIndex].Content.Add(newFileItem);
                 }
             }
             Console.WriteLine("Item added!");
+            Console.Clear();
+        }
+
+        public static void RmItemFromModule(List<Course> courses)
+        {
+            Console.WriteLine("Please select which course to remove item from module.");
+            int courseIndex = Services.ListSelect(courses, 1);
+            Console.WriteLine("Please select which module to remove an item.");
+            int moduleIndex = Services.ListSelect(courses[courseIndex].Modules, 1);
+            Console.WriteLine("Please select which item to remove from module");
+            int itemIndex = Services.ListSelect(courses[courseIndex].Modules[moduleIndex].Content, 1);
+            courses[courseIndex].Modules[moduleIndex].Content.Remove(courses[courseIndex].Modules[moduleIndex].Content[itemIndex]);
         }
         public static void printModuleMenu()
         {
             Console.WriteLine("Module Options");
             Console.WriteLine("1. Create a module for a course."); // DONE 
-            Console.WriteLine("2. Create an item for a module.");  // 
-            Console.WriteLine("3. Update an item for a module.");  //
+            Console.WriteLine("2. Create an item for a module.");  // DONE
+            Console.WriteLine("3. Update an item for a module.");  // 
             Console.WriteLine("4. List modules for a course."); // DONE
-            Console.WriteLine("5. Read an item's contents from a module.");
-            Console.WriteLine("6. Remove an item from a module.");
+            Console.WriteLine("5. Read an item's contents from a module."); // 2/3 done
+            Console.WriteLine("6. Remove an item from a module."); 
             Console.WriteLine("7. Go back to main menu.");
         }
         public override string ToString()
         {
             return "Module Name : " + _name + " | Module Description: " + _description;
         }
-
     }
 }
